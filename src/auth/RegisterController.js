@@ -6,6 +6,16 @@ const RegisterController = async (req, res) => {
     try {
         const { role, phone, name, email, password } = req.body;
 
+        const isUser = await User.findOne({ email });
+        const isVendor = await Vendor.findOne({ email });
+        const isAdmin = await Admin.findOne({ email });
+
+        if (isUser || isVendor || isAdmin) {
+            return res.status(400).send({
+                result: "Email already exists"
+            });
+        }
+
         if (!role || !phone || !name || !email || !password) {
             return res.status(400).send({ result: "All fields are required" });
         }

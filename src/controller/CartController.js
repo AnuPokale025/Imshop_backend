@@ -22,7 +22,7 @@ const getCartItemsById = async (req, res) => {
 
 
 const addCartItem = async (req, res) => {
-    
+
     try {
         const { userId, productId } = req.params;
         const { quantity } = req.body;
@@ -33,9 +33,6 @@ const addCartItem = async (req, res) => {
         const CartItem = new Cart({
             userId,
             productId,
-
-
-            
             quantity: Number(quantity),
             status: 'active'
         });
@@ -56,4 +53,23 @@ const addCartItem = async (req, res) => {
 
 
 };
-module.exports = { getCartItems, getCartItemsById, addCartItem };
+
+const deleteCartItem = async (req, res) => {
+    try {
+        const cartId = req.params.cartId;
+        const result = await Cart.deleteOne({
+            _id: cartId
+        })
+        res.status(200).send({
+            message: "Cart item is deleted",
+            data: result
+        })
+    } catch (error) {
+        res.status(500).send({
+            result: "Error deleting cart item",
+            error: error.message
+        })
+    }
+};
+
+module.exports = { getCartItems, getCartItemsById, addCartItem, deleteCartItem };

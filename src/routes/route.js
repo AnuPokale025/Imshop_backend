@@ -12,6 +12,8 @@ const OrderController = require('../controller/OrderController');
 const ResetPasswordController = require('../auth/ResetPasswordController');
 const ForgetPasswordController = require('../auth/ForgetPasswordController')
 const FeedbackController = require('../controller/FeedbackController')
+const PaymentController = require('../controller/PaymentController');
+const WebhookController = require('../controller/WebhookController');
 const multer = require('multer')
 
 const upload = multer({
@@ -22,7 +24,7 @@ const upload = multer({
 // Product Routes
 router.get('/product', ProductController.getAllProducts);
 router.get('/product/:productId', ProductController.getProductById);
-
+router.delete('/product/:productId', ProductController.deleteProduct);
 router.post('/product/:categoryId/:subcategoryId',upload.single('image'),ProductController.addProduct
 );
 
@@ -30,17 +32,19 @@ router.post('/product/:categoryId/:subcategoryId',upload.single('image'),Product
 router.get('/cart', verifytoken, CartController.getCartItems);
 router.get('/cart/:cartId', verifytoken, CartController.getCartItemsById);
 router.post('/cart/userId/:userId/productId/:productId', verifytoken, CartController.addCartItem);
-
+router.delete('/cart/:cartId', verifytoken, CartController.deleteCartItem);
 
 // Category Routes
 router.get('/category', CategoryController.getAllCategories);
 router.get('/category/:categoryId', CategoryController.getCategoryById);
 router.post('/category/:vendorId', CategoryController.addCategory);
+router.delete('/category/:categoryId', CategoryController.deleteCategory);
 
 // Subcategory Routes
 router.get('/subcategory', SubcategoryController.getAllSubcategories);
 router.get('/subcategory/:subcategoryId', SubcategoryController.getSubcategoryById);
 router.post('/subcategory/category/:categoryId/vendor/:vendorId', SubcategoryController.addSubcategory);
+router.delete('/subcategory/:subcategoryId', SubcategoryController.deleteSubcategory);
 
 // Auth Routes (FIXED)
 router.post('/login', LoginController.login);
@@ -64,4 +68,9 @@ router.delete('/order/:orderId', verifytoken, OrderController.deleteOrder);
 //Feedback
 router.get('/feedback', verifytoken, FeedbackController.getfeedback);
 router.post('/feedback/:useId/:productId',verifytoken,FeedbackController.addFeedback);
+
+///payment verified
+router.post('/verify-payment/:userId/:orderId', verifytoken, PaymentController.verifyPayment);
+router.post('/webhook/:userId/:orderId' , verifytoken, WebhookController.webhookController); 
+
 module.exports = router;

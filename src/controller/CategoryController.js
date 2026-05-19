@@ -48,6 +48,24 @@ const addCategory = async (req, res) => {
             result: "Error adding category",
             error: error.message
         });
-    }
+    }   
 };
-module.exports = { getAllCategories, getCategoryById, addCategory };
+
+const deleteCategory = async (req, res)=>{
+    try{
+        const categoryId = req.params.categoryId;
+        const result =  await Category.deleteOne({
+            _id : categoryId
+        });
+        res.status(200).send({
+            message: "Category is deleted",
+            data : result
+        })
+    }catch(error){
+        res.status(500).send({
+            message: "Error deleting category",
+            error: error.message
+        })
+    }
+}
+module.exports = { getAllCategories, getCategoryById, addCategory, deleteCategory };

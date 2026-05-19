@@ -12,7 +12,7 @@ const getSubcategoryById = async (req, res) => {
         if (!subcategory) {
             return res.status(404).send({ result: "Subcategory not found" });
         }
-        res.send(subcategory);                       
+        res.send(subcategory);
     } catch (error) {
         res.status(500).send({ result: "Error fetching subcategory", error: error.message });
     }
@@ -21,9 +21,9 @@ const getSubcategoryById = async (req, res) => {
 const addSubcategory = async (req, res) => {
     try {
         // const { categoryId, vendorId } = req.params;
-         const vendorId = req.params.vendorId
+        const vendorId = req.params.vendorId
         const categoryId = req.params.categoryId
-       
+
         const { name } = req.body;
 
         // validation
@@ -36,7 +36,7 @@ const addSubcategory = async (req, res) => {
             categoryId,
             vendorId
         });
-   
+
         const result = await subcategory.save();
 
         res.status(201).send({
@@ -52,4 +52,23 @@ const addSubcategory = async (req, res) => {
     }
 };
 
-module.exports = { getAllSubcategories, getSubcategoryById, addSubcategory };   
+const deleteSubcategory = async (req, res) => 
+    {
+        try {
+            const subcategoryId = req.params.subcategoryId;
+            const result = await SubCategory.deleteOne({
+                _id: subcategoryId
+            });
+            res.status(200).send({
+                message: "Subcategory is deleted",
+                data: result
+            })
+        } catch (error) {
+            res.status(500).send({
+                result: "Error deleting subcategory",
+                error: error.message
+            })
+        }
+    };
+
+    module.exports = { getAllSubcategories, getSubcategoryById, addSubcategory, deleteSubcategory };   

@@ -8,7 +8,7 @@ const getWishlist =  async (req, res) => {
 const getWishlistItemById = async (req, res) => {
     try {
         const wishlistId = req.params.wishlistId;
-        const wishlist = await Wishlist.findById(wishlistId).populate('userId', 'name').populate('productId', 'name price');
+        const wishlist = await Wishlist.findById(wishlistId)
         if (!wishlist) {
             return res.send({ result: "Wishlist item is not found" });
 
@@ -17,7 +17,7 @@ const getWishlistItemById = async (req, res) => {
 
     } catch (error) {
         res.send({
-            result: "Erro fetching wishlist item",
+            result: "Error fetching wishlist item",
             error: error.message
         })
     }
@@ -35,7 +35,7 @@ const addWishlistItem = async (req, res) => {
             productId: productId
         });
         const result = await wishlistItem.save();
-        io.emit("newOrder", result);
+        io.emit("newWishlistItem", result);
         res.status(201).send({
             message: "Product added to wishlist successfully",
             data: result
@@ -57,8 +57,8 @@ const deleteWishlist = async(req, res)=>{
             _id: wishlistId
         })
 
-        io.emit("deleteOrder", {
-            orderId: orderId
+        io.emit("deleteWishlist", {
+            wishlistId: wishlistId
         });
         
         return res.status(200).send({

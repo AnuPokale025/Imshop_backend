@@ -1,6 +1,7 @@
 const Order = require('../modal/Order');
 const VerifyToken = require("../auth/VerifyToken")
 
+
 const getAllOrders = async (req, res) => {
     let order = await Order.find();
     res.send(order);
@@ -55,7 +56,7 @@ const deleteOrder = async (req, res) => {
     try {
         const io = req.app.get("io");
         const orderId = req.params.orderId
-        
+
         const result = await Order.deleteOne({
             _id: orderId
         });
