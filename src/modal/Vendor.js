@@ -21,6 +21,10 @@ const vendorSchema = new mongoose.Schema({
     role : {
         type : String,
         
+    },
+    address: {
+        type: String,
+        
     }
 });
 

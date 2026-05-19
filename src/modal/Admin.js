@@ -16,6 +16,9 @@ const adminSchema = new mongoose.Schema({
     },
     role : {
         type: String
+    },
+    address: {
+        type: String
     }
 }) ;
 

@@ -4,7 +4,7 @@ const Vendor = require('../modal/Vendor');
 
 const RegisterController = async (req, res) => {
     try {
-        const { role, phone, name, email, password } = req.body;
+        const { role, phone, name, address, email, password } = req.body;
 
         const isUser = await User.findOne({ email });
         const isVendor = await Vendor.findOne({ email });
@@ -16,22 +16,22 @@ const RegisterController = async (req, res) => {
             });
         }
 
-        if (!role || !phone || !name || !email || !password) {
+        if (!role || !phone || !name || !address || !email || !password) {
             return res.status(400).send({ result: "All fields are required" });
         }
 
         let savedUser;
 
         if (role === "user") {
-            const userData = new User({ phone, name, email, password });
+            const userData = new User({ phone, name, address, email, password });
             savedUser = await userData.save();
         }
         else if (role === "vendor") {
-            const vendorData = new Vendor({ phone, name, email, password });
+            const vendorData = new Vendor({ phone, name, address, email, password });
             savedUser = await vendorData.save();
         }
         else if (role === "admin") {
-            const adminData = new Admin({ phone, name, email, password });
+            const adminData = new Admin({ phone, name, address, email, password });
             savedUser = await adminData.save();
         }
         else {
