@@ -50,30 +50,30 @@ app.use('/api', Router);
 
 
 // Upload Route
-app.post('/upload', upload.single('image'), async (req, res) => {
-  try {
+// app.post('/upload', upload.single('image'), async (req, res) => {
+//   try {
 
-    if (!req.file) {
-      return res.status(400).json({
-        message: "No file uploaded"
-      });
-    }
+//     if (!req.file) {
+//       return res.status(400).json({
+//         message: "No file uploaded"
+//       });
+//     }
 
-    const result = await uploadImage(req.file.buffer);
+//     const result = await uploadImage(req.file.buffer);
 
-    return res.status(201).json({
-      message: 'File uploaded successfully',
-      result: result
-    });
+//     return res.status(201).json({
+//       message: 'File uploaded successfully',
+//       result: result
+//     });
 
-  } catch (error) {
-    console.log(error);
+//   } catch (error) {
+//     console.log(error);
 
-    return res.status(500).json({
-      message: "Upload failed"
-    });
-  }
-});
+//     return res.status(500).json({
+//       message: "Upload failed"
+//     });
+//   }
+// });
 
 
 server.listen(
